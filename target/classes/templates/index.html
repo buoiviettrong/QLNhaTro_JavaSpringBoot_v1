@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="ie=edge" http-equiv="x-ua-compatible">
+  <title>Books</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" rel="stylesheet">
+  <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" rel="stylesheet">
+  <link href="/css/shards.min.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="fragments/navbar :: navbar"></nav>
+
+<div class="container my-5" th:switch="${books}">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 th:case="null">No books yet!</h2>
+      <div th:case="*">
+        <h2 class="my-5">Books</h2>
+        <form method="get" th:action="@{/search}">
+          <input name="keyword" placeholder="Find by Book title and author" size="50"
+                 th:value="${keyword}" type="text">
+          <input class="btn btn-primary" type="submit" value="Search">
+          <a class="btn btn-secondary" th:href="@{/index}">Clear</a>
+        </form>
+        <table class="table table-striped table-responsive-md">
+          <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Summary</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.summary}"></td>
+            <td><a class="btn btn-primary" th:href="@{/edit-book/{id}(id=${book.id})}"><i class="fas fa-pen"></i></a>
+            </td>
+            <td><a class="btn btn-primary" th:href="@{/delete-book/{id}(id=${book.id})}"><i
+                    class="fas fa-trash"></i></a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="my-5"><a class="btn btn-primary" href="/add-book"><i class="fas fa-plus"></i></a></p>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

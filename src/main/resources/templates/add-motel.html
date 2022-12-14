@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="ie=edge" http-equiv="x-ua-compatible">
+  <title>Register</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" rel="stylesheet">
+  <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" rel="stylesheet">
+  <link href="/css/reset.css" rel="stylesheet">
+  <link href="/css/shards.min.css" rel="stylesheet">
+  <link href="/css/register.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/topNav :: navbar"></div>
+<div class="container register mt-10">
+  <div class="row">
+    <div class="col-md-3 register-left">
+      <a class="btn btn-google btn-login text-uppercase fw-bold" th:href="@{'/host/'+${hostId}}"
+         style="text-decoration: none"
+      >
+        Quay Lại
+      </a>
+    </div>
+    <div class="col-md-9 register-right">
+      <div class="tab-content" id="myTabContent">
+        <div aria-labelledby="home-tab" class="tab-pane fade show active" id="home" role="tabpanel">
+          <h2 th:if="${message}" th:text="${message}"></h2>
+          <h3 class="register-heading">Tạo Phòng Mới</h3>
+          <form class="row register-form" method="post" th:action="@{'/host/add-motel'}" th:object="${motel}" enctype="multipart/form-data">
+            <div class="col-md-6">
+              <div class="form-group">
+                <p style="height: 0;">Tên Phòng</p>
+                <input aria-label="" class="form-control" placeholder="Motel Name" th:field="*{name}" type="text" value=""/>
+                <span class="text-danger" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></span>
+              </div>
+              <div class="form-group">
+                <p style="height: 0;">Diện Tích</p>
+                <div class="input-group">
+                  <input aria-label="" class="form-control" placeholder="Diện tích" th:field="*{area}" type="text" value="" onkeypress="validNumber(event)"/>
+                  <span class="input-group-text">m&sup2;</span>
+                </div>
+                <span class="text-danger" th:errors="*{area}" th:if="${#fields.hasErrors('area')}"></span>
+              </div>
+              <div class="form-group">
+                <p style="height: 0;">Loại Phòng</p>
+                <select class="form-control" aria-label="" th:field="*{type}">
+                  <option value="" selected>Chọn Loại Phòng</option>
+                  <option value="Có Điều Hòa">Có Máy Lạnh</option>
+                  <option value="Bình Thường">Bình Thường</option>
+                </select>
+                <span class="text-danger" th:errors="*{type}" th:if="${#fields.hasErrors('type')}"></span>
+              </div>
+              <div class="form-group">
+                <p style="height: 0;">Chọn Ảnh</p>
+                <input class="form-control" name="file" placeholder="image *" type="file" accept="image/gif, image/jpeg, image/png"/>
+<!--                <span class="text-danger" th:errors="*{image}" th:if="${#fields.hasErrors('image')}"></span>-->
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group input-group">
+                <p style="height: 0;">Giá Phòng</p>
+                <div class="input-group">
+                  <input aria-label="" class="form-control" min="0" name="txtEmpPhone"
+                         placeholder="Giá Phòng"
+                         th:field="*{price}" type="text" value=""
+                         onkeypress="validNumber(event)"
+                  />
+                  <span class="input-group-text">đ/tháng</span>
+                </div>
+                <span class="text-danger" th:errors="*{price}" th:if="${#fields.hasErrors('price')}"></span>
+              </div>
+              <div class="form-group input-group">
+                <p style="height: 0;">Giá Điện</p>
+                <div class="input-group">
+                  <input aria-label="" class="form-control" min="0" name="txtEmpPhone"
+                         placeholder="Giá Điện"
+                         th:field="*{electricityPrice}" type="text" value=""
+                         onkeypress="validNumber(event)"
+                  />
+                  <span class="input-group-text">đ/số</span>
+                </div>
+                <span class="text-danger" th:errors="*{electricityPrice}" th:if="${#fields.hasErrors('electricityPrice')}"></span>
+              </div>
+              <div class="form-group input-group">
+                <p style="height: 0;">Giá Nước</p>
+                <div class="input-group">
+                  <input aria-label="" class="form-control" min="0" name="txtEmpPhone"
+                         placeholder="Giá Nước"
+                         th:field="*{waterPrice}" type="text" value=""
+                         onkeypress="validNumber(event)"
+                  />
+                  <span class="input-group-text">đ/số</span>
+                </div>
+                <span class="text-danger" th:errors="*{waterPrice}" th:if="${#fields.hasErrors('waterPrice')}"></span>
+              </div>
+              <div class="form-group">
+                <input aria-label="" hidden/>
+              </div>
+              <input class="btnRegister" type="submit" value="Tạo Mới"/>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/validNumber.js"></script>
+</body>
+</html>

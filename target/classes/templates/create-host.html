@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="ie=edge" http-equiv="x-ua-compatible">
+  <title>Register</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" rel="stylesheet">
+  <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" rel="stylesheet">
+  <link href="/css/shards.min.css" rel="stylesheet">
+  <link href="/css/register.css" rel="stylesheet">
+  <link href="/css/reset.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/topNav :: navbar"></div>
+<div class="container register">
+  <div class="row">
+    <div class="col-md-3 register-left"></div>
+    <div class="col-md-9 register-right">
+      <div class="tab-content" id="myTabContent">
+        <div aria-labelledby="home-tab" class="tab-pane fade show active" id="home" role="tabpanel">
+          <h3 class="register-heading">Đăng ký Nhà Trọ</h3>
+          <form class="row register-form" enctype="multipart/form-data" method="post" th:action="@{/create-host}"
+                th:object="${host}">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input aria-label="" class="form-control" placeholder="Tên nhà trọ *" th:field="*{name}" type="text" value=""/>
+                <span class="text-danger" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></span>
+              </div>
+              <div class="form-group">
+                <input aria-label=""  class="form-control" placeholder="Số điện thoại liên hệ *" th:field="*{phoneNumber}" type="text"
+                       value=""/>
+                <span class="text-danger" th:errors="*{phoneNumber}" th:if="${#fields.hasErrors('phoneNumber')}"></span>
+              </div>
+              <div class="form-group">
+                <input class="form-control" name="file" placeholder="image *" type="file" accept="image/gif, image/jpeg, image/png"/>
+              </div>
+            </div>
+            <div class="col-md-6" th:object="${address}">
+              <div class="form-group">
+                <select aria-label=".form-select-sm" class="form-select form-select-sm form-control"
+                        id="city" name="province" th:field="*{province}">
+                  <option selected value="">Chọn tỉnh thành</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select aria-label=".form-select-sm" class="form-select form-select-sm form-control"
+                        id="district" name="district" th:field="*{district}">
+                  <option selected value="">Chọn quận huyện</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select aria-label=".form-select-sm" class="form-select form-select-sm form-control" id="ward"
+                        name="wand" th:field="*{wand}">
+                  <option selected value="">Chọn phường xã</option>
+                </select>
+              </div>
+              <input class="btnRegister" type="submit" value="Đăng Ký"/>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/address.js"></script>
+</body>
+</html>

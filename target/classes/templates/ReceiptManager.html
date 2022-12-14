@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="ie=edge" http-equiv="x-ua-compatible">
+  <title>Home</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" rel="stylesheet">
+  <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" rel="stylesheet">
+  <link href="/css/shards.min.css" rel="stylesheet">
+  <link href="/css/hostDetail.css" rel="stylesheet">
+  <link href="/css/reset.css" rel="stylesheet">
+</head>
+
+<body>
+<nav th:replace="fragments/topNav :: navbar"></nav>
+
+<section class="min-vh-100 pt-100" style="background-color: #f4f5f7;" th:if="${receipts != null}">
+  <div class="row">
+    <div class="col" th:if="${status == true}">
+      <a class="btn btn-primary" th:href="'/booking/' + ${id} +'?status=0'">Chưa Thanh Toán</a>
+      <a disabled class="btn btn-danger" >Đã Thanh Toán</a>
+     </div>
+    <div class="col" th:if="${status == false}">
+      <a disabled="" class="btn btn-danger" >Chưa Thanh Toán</a>
+      <a class="btn btn-primary" th:href="'/booking/' + ${id} +'?status=1'">Đã Thanh Toán</a>
+    </div>
+  </div>
+  <div class="d-flex flex-row row">
+    <div class="col"></div>
+    <div class="col">
+      <h3>Người Đặt</h3>
+    </div>
+    <div class="col">
+      <h3>Ngày Đặt</h3>
+    </div>
+    <div class="col">
+      <h3>Ngày Kết Thúc</h3>
+    </div>
+    <div class="col">
+      <h3>Trạng Thái</h3>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row" th:each="r : ${receipts}">
+    <div class="col"></div>
+    <div class="col" th:text="${r.getBooking().getCustomerName()}"></div>
+    <div class="col" th:text="${r.getBooking().getStartDate()}"></div>
+    <div class="col" th:text="${r.getEndDate()}"></div>
+    <div class="col" th:if="${r.getStatus() == false}" th:text="'Chưa Thanh Toán'"></div>
+    <div class="col" th:if="${r.getStatus() == true}" th:text="'Đã Thanh Toán'"></div>
+    <div class="col" th:if="${r.getStatus() == false}">
+      <form action="#" th:action="'/receipt/done/' + ${r.getId()}" method="post">
+        <button class="btn btn-primary" type="submit">Xác Nhận Thanh Toán</button>
+      </form>
+    </div>
+    <div class="col" th:if="${r.getStatus() == true}"></div>
+  </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/address.js"></script>
+<script src="/js/validNumber.js"></script>
+</body>
+</html>
